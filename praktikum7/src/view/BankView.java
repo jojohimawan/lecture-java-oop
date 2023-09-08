@@ -14,16 +14,17 @@ public class BankView extends javax.swing.JFrame {
     
     private Bank bank;
     private final DefaultTableModel tableModel;
-    private int totalData;
+    private int index;
 
     /**
      * Creates new form NasabahView
      */
     public BankView() {   
         initComponents();
-        bank = new Bank();
-        tableModel = (DefaultTableModel)tableNasabah.getModel();
-        tableModel.setRowCount(0);
+        this.index = 0;
+        this.bank = new Bank();
+        this.tableModel = (DefaultTableModel)tableNasabah.getModel();
+        this.tableModel.setRowCount(0);
     }
 
     /**
@@ -192,30 +193,32 @@ public class BankView extends javax.swing.JFrame {
     }//GEN-LAST:event_formNamaAwalActionPerformed
 
     private void btnTambahNasabahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahNasabahActionPerformed
-        // TODO : create new object and assign attributes
-        if(!formNamaAwal.getText().isBlank() && !formNamaAkhir.getText().isBlank()) {
-            bank.tambahNasabah(formNamaAwal.getText(), formNamaAkhir.getText());
+        // catch form values and store to vars
+        String namaAwal = formNamaAwal.getText();
+        String namaAkhir = formNamaAkhir.getText();
+        int saldo = formSaldo.getText().equals("") ? 0 : Integer.parseInt(formSaldo.getText()); 
+        
+        // formNama* shouldn't be empty
+        if(!namaAwal.equals("") && !namaAkhir.equals("")) {
+            // add nasabah object and set saldo
+            this.bank.tambahNasabah(namaAwal, namaAkhir);
+            this.bank.getNasabah(this.index).setTabungan(new Tabungan(saldo));
             
-            if(formSaldo.getText().isBlank()) {
-               bank.getNasabah(totalData).setTabungan(new Tabungan(0));
-            } else {
-                bank.getNasabah(totalData).setTabungan(new Tabungan(Integer.parseInt(formSaldo.getText())));
-            }
+            // add nasabah attributes into table rows
+            tableModel.addRow(new Object[]{bank.getNasabah(this.index).getNamaAwal(), 
+                bank.getNasabah(this.index).getNamaAkhir(), 
+                bank.getNasabah(this.index).getTabungan().getSaldo()});
+            
+            // increment nasabah count
+            this.index++;
         } else {
-            System.out.println("Masukkan data");
+            JOptionPane.showMessageDialog(null, "Mohon lengkapi data");
         }
         
-        bank.getNasabah(totalData).setTabungan(new Tabungan(Integer.parseInt(formSaldo.getText())));
         formNamaAwal.setText("");
         formNamaAkhir.setText("");
         formSaldo.setText("");
-        
-        
-        // TODO : populate table with object attributes
-        tableModel.addRow(new Object[]{bank.getNasabah(totalData).getNamaAwal(), 
-            bank.getNasabah(totalData).getNamaAkhir(), 
-            bank.getNasabah(totalData).getTabungan().getSaldo()});
-        totalData++;
+
     }//GEN-LAST:event_btnTambahNasabahActionPerformed
 
     private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed

@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package view;
+import javax.swing.JOptionPane;
 import perbankan.*;
 import javax.swing.table.DefaultTableModel;
 /**
@@ -13,7 +14,7 @@ public class BankView extends javax.swing.JFrame {
     
     private Bank bank;
     private final DefaultTableModel tableModel;
-    private int dataCount;
+    private int totalData;
 
     /**
      * Creates new form NasabahView
@@ -47,6 +48,7 @@ public class BankView extends javax.swing.JFrame {
         tableNasabah = new javax.swing.JTable();
         formSaldo = new javax.swing.JTextField();
         labSaldo = new javax.swing.JLabel();
+        btnHapus = new javax.swing.JButton();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -100,15 +102,29 @@ public class BankView extends javax.swing.JFrame {
             Class[] types = new Class [] {
                 java.lang.String.class, java.lang.String.class, java.lang.Integer.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         jScrollPane2.setViewportView(tableNasabah);
 
         labSaldo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         labSaldo.setText("Saldo");
+
+        btnHapus.setText("Hapus Data");
+        btnHapus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHapusActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -119,25 +135,27 @@ public class BankView extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1024, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(labTitle)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(btnTambahNasabah)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(labNamaAwal)
-                                                .addComponent(labNamaAkhir))
-                                            .addGap(45, 45, 45))
-                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                            .addComponent(labSaldo)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(formNamaAkhir)
-                                        .addComponent(formNamaAwal)
-                                        .addComponent(formSaldo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE)))))
-                        .addGap(0, 508, Short.MAX_VALUE)))
+                        .addComponent(labTitle)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnTambahNasabah)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(labNamaAwal)
+                                        .addGap(48, 48, 48))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(labSaldo, javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(labNamaAkhir, javax.swing.GroupLayout.Alignment.LEADING))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(formNamaAkhir)
+                                    .addComponent(formNamaAwal)
+                                    .addComponent(formSaldo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnHapus)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -149,18 +167,20 @@ public class BankView extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labNamaAwal)
                     .addComponent(formNamaAwal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(23, 23, 23)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labNamaAkhir)
-                    .addComponent(formNamaAkhir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(formNamaAkhir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labNamaAkhir))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(formSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(36, 36, 36)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnTambahNasabah)
+                    .addComponent(btnHapus))
                 .addGap(18, 18, 18)
-                .addComponent(btnTambahNasabah)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 387, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 374, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -173,15 +193,40 @@ public class BankView extends javax.swing.JFrame {
 
     private void btnTambahNasabahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahNasabahActionPerformed
         // TODO : create new object and assign attributes
-        bank.tambahNasabah(formNamaAwal.getText(), formNamaAkhir.getText());
-        bank.getNasabah(dataCount).setTabungan(new Tabungan(Integer.parseInt(formSaldo.getText())));
+        if(!formNamaAwal.getText().isBlank() && !formNamaAkhir.getText().isBlank()) {
+            bank.tambahNasabah(formNamaAwal.getText(), formNamaAkhir.getText());
+            
+            if(formSaldo.getText().isBlank()) {
+               bank.getNasabah(totalData).setTabungan(new Tabungan(0));
+            } else {
+                bank.getNasabah(totalData).setTabungan(new Tabungan(Integer.parseInt(formSaldo.getText())));
+            }
+        } else {
+            System.out.println("Masukkan data");
+        }
+        
+        bank.getNasabah(totalData).setTabungan(new Tabungan(Integer.parseInt(formSaldo.getText())));
+        formNamaAwal.setText("");
+        formNamaAkhir.setText("");
+        formSaldo.setText("");
+        
         
         // TODO : populate table with object attributes
-        tableModel.addRow(new Object[]{bank.getNasabah(dataCount).getNamaAwal(), 
-            bank.getNasabah(dataCount).getNamaAkhir(), 
-            bank.getNasabah(dataCount).getTabungan().getSaldo()});
-        dataCount++;
+        tableModel.addRow(new Object[]{bank.getNasabah(totalData).getNamaAwal(), 
+            bank.getNasabah(totalData).getNamaAkhir(), 
+            bank.getNasabah(totalData).getTabungan().getSaldo()});
+        totalData++;
     }//GEN-LAST:event_btnTambahNasabahActionPerformed
+
+    private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
+        // TODO add your handling code here:
+        try {
+            int rowIndex = tableNasabah.getSelectedRow();
+            tableModel.removeRow(rowIndex);
+        } catch(Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }//GEN-LAST:event_btnHapusActionPerformed
 
     /**
      * @param args the command line arguments
@@ -220,6 +265,7 @@ public class BankView extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnHapus;
     private javax.swing.JButton btnTambahNasabah;
     private javax.swing.JTextField formNamaAkhir;
     private javax.swing.JTextField formNamaAwal;

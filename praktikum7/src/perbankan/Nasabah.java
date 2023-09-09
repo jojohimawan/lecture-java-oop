@@ -33,4 +33,16 @@ public class Nasabah {
     public void setTabungan(Tabungan tabungan) {
         this.tabungan = tabungan;
     }
+    
+    // HOTFIX : add setter namaAwal
+    public void setNamaAwal(String namaAwal) {
+        this.namaAwal = namaAwal;
+    }
+    
+    // HOTFIX : add setter namaAkhir
+    public void setNamaAkhir(String namaAkhir) {
+        this.namaAkhir = namaAkhir;
+    }
+    
+    
 }

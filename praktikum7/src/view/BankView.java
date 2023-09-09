@@ -5,16 +5,79 @@
 package view;
 import javax.swing.JOptionPane;
 import perbankan.*;
+import java.util.List;
+import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 /**
  *
  * @author jordan
  */
+
+//class NasabahListTableModel extends AbstractTableModel {
+//
+//    private List<Nasabah> nasabahList;
+//    private final String[] columnNames = {"Nama Awal", "Nama Akhir", "Saldo"};
+//
+//    public NasabahListTableModel(List<Nasabah> nasabahList) {
+//        this.nasabahList = nasabahList;
+//    }
+//
+//    @Override
+//    public int getRowCount() {
+//        return nasabahList == null ? 0 : nasabahList.size();
+//    }
+//
+//    @Override
+//    public int getColumnCount() {
+//        return columnNames.length;
+//    }
+//
+//    @Override
+//    public String getColumnName(int column) {
+//        return columnNames[column];
+//    }
+//
+//    @Override
+//    public Object getValueAt(int rowIndex, int columnIndex) {
+//        Nasabah data = nasabahList.get(rowIndex);
+//        return switch (columnIndex) {
+//            case 0 ->
+//                data.getNamaAwal();
+//            case 1 ->
+//                data.getNamaAkhir();
+//            case 2 ->
+//                data.getTabungan().getSaldo();
+//            default ->
+//                null;
+//        };
+//    }
+//
+//    public void addNasabah(Nasabah data) {
+//        if (nasabahList == null) {
+//            nasabahList = new ArrayList();
+//        }
+//        nasabahList.add(data);
+//        fireTableRowsInserted(nasabahList.size() - 1, nasabahList.size() - 1);
+//    }
+//
+//    public void removeNasabah(int rowIndex) {
+//        nasabahList.remove(rowIndex);
+//        fireTableRowsDeleted(rowIndex, rowIndex);
+//    }
+//
+//}
+
+
 public class BankView extends javax.swing.JFrame {
     
     private Bank bank;
     private final DefaultTableModel tableModel;
     private int index;
+    private int pointedIndex;
 
     /**
      * Creates new form NasabahView
@@ -50,6 +113,7 @@ public class BankView extends javax.swing.JFrame {
         formSaldo = new javax.swing.JTextField();
         labSaldo = new javax.swing.JLabel();
         btnHapus = new javax.swing.JButton();
+        btnEdit = new javax.swing.JButton();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -69,8 +133,8 @@ public class BankView extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
 
-        labTitle.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        labTitle.setText("Nasabah View");
+        labTitle.setFont(new java.awt.Font("Nohemi", 0, 24)); // NOI18N
+        labTitle.setText("Bank View");
 
         labNamaAwal.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         labNamaAwal.setText("Nama Awal");
@@ -78,11 +142,14 @@ public class BankView extends javax.swing.JFrame {
         labNamaAkhir.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         labNamaAkhir.setText("Nama Akhir");
 
+        formNamaAwal.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         formNamaAwal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 formNamaAwalActionPerformed(evt);
             }
         });
+
+        formNamaAkhir.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         btnTambahNasabah.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnTambahNasabah.setText("Tambah Nasabah");
@@ -103,27 +170,41 @@ public class BankView extends javax.swing.JFrame {
             Class[] types = new Class [] {
                 java.lang.String.class, java.lang.String.class, java.lang.Integer.class
             };
-            boolean[] canEdit = new boolean [] {
-                false, false, false
-            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
+        });
+        tableNasabah.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BankView.this.mouseClicked(evt);
             }
         });
         jScrollPane2.setViewportView(tableNasabah);
+        if (tableNasabah.getColumnModel().getColumnCount() > 0) {
+            tableNasabah.getColumnModel().getColumn(0).setHeaderValue("Nama Awal");
+            tableNasabah.getColumnModel().getColumn(1).setHeaderValue("Nama Akhir");
+            tableNasabah.getColumnModel().getColumn(2).setHeaderValue("Saldo");
+        }
+
+        formSaldo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         labSaldo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         labSaldo.setText("Saldo");
 
-        btnHapus.setText("Hapus Data");
+        btnHapus.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnHapus.setText("Hapus Nasabah");
         btnHapus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnHapusActionPerformed(evt);
+            }
+        });
+
+        btnEdit.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnEdit.setText("Edit Nasabah");
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
             }
         });
 
@@ -136,11 +217,8 @@ public class BankView extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1024, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(labTitle)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnTambahNasabah)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(labTitle)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(layout.createSequentialGroup()
@@ -148,15 +226,19 @@ public class BankView extends javax.swing.JFrame {
                                         .addGap(48, 48, 48))
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(labSaldo, javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(labNamaAkhir, javax.swing.GroupLayout.Alignment.LEADING))
+                                            .addComponent(labNamaAkhir, javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(labSaldo, javax.swing.GroupLayout.Alignment.LEADING))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(formNamaAkhir)
                                     .addComponent(formNamaAwal)
-                                    .addComponent(formSaldo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnHapus)))
+                                    .addComponent(formSaldo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE))
+                                .addGap(138, 138, 138)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnHapus, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnTambahNasabah))))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -165,23 +247,23 @@ public class BankView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(labTitle)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labNamaAwal)
-                    .addComponent(formNamaAwal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(formNamaAwal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(labNamaAwal)
+                        .addComponent(btnTambahNasabah)))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(formNamaAkhir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labNamaAkhir))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(formSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(36, 36, 36)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnTambahNasabah)
+                    .addComponent(labNamaAkhir)
                     .addComponent(btnHapus))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 374, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(formSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEdit)
+                    .addComponent(labSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 429, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -222,14 +304,70 @@ public class BankView extends javax.swing.JFrame {
     }//GEN-LAST:event_btnTambahNasabahActionPerformed
 
     private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
-        // TODO add your handling code here:
+        // delete row and delete object
         try {
             int rowIndex = tableNasabah.getSelectedRow();
             tableModel.removeRow(rowIndex);
+            this.bank.hapusNasabah(rowIndex);
         } catch(Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
     }//GEN-LAST:event_btnHapusActionPerformed
+
+//    tableNasabah.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+//    @Override
+//    public void valueChanged(ListSelectionEvent e) {
+//        if (!e.getValueIsAdjusting()) {
+//            int selectedRow = tableNasabah.getSelectedRow();
+//            if (selectedRow >= 0) {
+//                // Get the data from the selected row
+//                String namaAwal = (String) tableModel.getValueAt(selectedRow, 0);
+//                String namaAkhir = (String) tableModel.getValueAt(selectedRow, 1);
+//                int saldo = (int) tableModel.getValueAt(selectedRow, 2);
+//
+//                // Set the data to your Bank object
+//                this.bank.editNasabah(selectedRow, namaAwal, namaAkhir);
+//
+//                // Update your text fields with the selected data
+//                formNamaAwal.setText(namaAwal);
+//                formNamaAkhir.setText(namaAkhir);
+//                formSaldo.setText(String.valueOf(saldo));
+//            }
+//        }
+//    }
+//});
+    
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        // TODO add your handling code here:
+        String namaAwal = formNamaAwal.getText();
+        String namaAkhir = formNamaAkhir.getText();
+        int saldo = Integer.parseInt(formSaldo.getText());
+        
+        try {
+            this.bank.editNasabah(this.pointedIndex, namaAwal, namaAkhir);
+            tableNasabah.setValueAt(namaAwal,this.pointedIndex, 0);
+            tableNasabah.setValueAt(namaAkhir,this.pointedIndex, 1);
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }//GEN-LAST:event_btnEditActionPerformed
+
+    private void mouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mouseClicked
+        // TODO add your handling code here:
+        int row = tableNasabah.rowAtPoint(evt.getPoint());
+        this.pointedIndex = tableNasabah.getSelectedRow();
+        
+        if(row >= 0) {
+            String namaAwal = (String) tableModel.getValueAt(row, 0);
+            String namaAkhir = (String) tableModel.getValueAt(row, 1);
+            String saldo = tableModel.getValueAt(row, 2).toString();
+            
+            formNamaAwal.setText(namaAwal);
+            formNamaAkhir.setText(namaAkhir);
+            formSaldo.setText(saldo);
+        }
+    }//GEN-LAST:event_mouseClicked
 
     /**
      * @param args the command line arguments
@@ -268,6 +406,7 @@ public class BankView extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnEdit;
     private javax.swing.JButton btnHapus;
     private javax.swing.JButton btnTambahNasabah;
     private javax.swing.JTextField formNamaAkhir;

@@ -10,12 +10,10 @@ import java.util.ArrayList;
  * @author jordan
  */
 public class Bank {
-//    private Nasabah[] nasabah;
     ArrayList<Nasabah> nasabah = new ArrayList<Nasabah>();
     private int jumlahNasabah;
     
     public Bank() {
-//        this.nasabah = new Nasabah();
         this.jumlahNasabah = 0;
     }
     
@@ -31,6 +29,17 @@ public class Bank {
     
     public Nasabah getNasabah(int index) {
         return this.nasabah.get(index);
+    }
+    
+    // HOTFIX : add method to delete nasabah
+    public void hapusNasabah(int index) {
+        this.nasabah.remove(index);
+    }
+    
+    // HOTFIX : add method to edit nasbah
+    public void editNasabah(int index, String namaAwal, String namaAkhir) {
+        this.nasabah.get(index).setNamaAwal(namaAwal);
+        this.nasabah.get(index).setNamaAkhir(namaAkhir);
     }
     
 }

@@ -293,14 +293,12 @@ public class BankView extends javax.swing.JFrame {
             
             // increment nasabah count
             this.index++;
+            
+            setForm("", "", "");
+            displayDialog("Berhasil menambah nasabah");
         } else {
-            JOptionPane.showMessageDialog(null, "Mohon lengkapi data");
+            displayDialog("Mohon lengkapi data");
         }
-        
-        formNamaAwal.setText("");
-        formNamaAkhir.setText("");
-        formSaldo.setText("");
-
     }//GEN-LAST:event_btnTambahNasabahActionPerformed
 
     private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
@@ -309,33 +307,13 @@ public class BankView extends javax.swing.JFrame {
             int rowIndex = tableNasabah.getSelectedRow();
             tableModel.removeRow(rowIndex);
             this.bank.hapusNasabah(rowIndex);
+            this.index--;
+            setForm("", "", "");
         } catch(Exception e) {
-            JOptionPane.showMessageDialog(null, e);
+            JOptionPane.showMessageDialog(null, e.toString() + "\n" + "Mohon pilih data nasabah");
         }
     }//GEN-LAST:event_btnHapusActionPerformed
 
-//    tableNasabah.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-//    @Override
-//    public void valueChanged(ListSelectionEvent e) {
-//        if (!e.getValueIsAdjusting()) {
-//            int selectedRow = tableNasabah.getSelectedRow();
-//            if (selectedRow >= 0) {
-//                // Get the data from the selected row
-//                String namaAwal = (String) tableModel.getValueAt(selectedRow, 0);
-//                String namaAkhir = (String) tableModel.getValueAt(selectedRow, 1);
-//                int saldo = (int) tableModel.getValueAt(selectedRow, 2);
-//
-//                // Set the data to your Bank object
-//                this.bank.editNasabah(selectedRow, namaAwal, namaAkhir);
-//
-//                // Update your text fields with the selected data
-//                formNamaAwal.setText(namaAwal);
-//                formNamaAkhir.setText(namaAkhir);
-//                formSaldo.setText(String.valueOf(saldo));
-//            }
-//        }
-//    }
-//});
     
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
         // TODO add your handling code here:
@@ -344,13 +322,13 @@ public class BankView extends javax.swing.JFrame {
         int saldo = Integer.parseInt(formSaldo.getText());
         
         try {
-            this.bank.editNasabah(this.pointedIndex, namaAwal, namaAkhir);
-            tableNasabah.setValueAt(namaAwal,this.pointedIndex, 0);
-            tableNasabah.setValueAt(namaAkhir,this.pointedIndex, 1);
-            
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e);
-        }
+                this.bank.editNasabah(this.pointedIndex, namaAwal, namaAkhir);
+                tableNasabah.setValueAt(namaAwal,this.pointedIndex, 0);
+                tableNasabah.setValueAt(namaAkhir,this.pointedIndex, 1);
+            } catch (Exception e) {
+                displayDialog(e.toString());
+            }
+        
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void mouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mouseClicked
@@ -363,12 +341,20 @@ public class BankView extends javax.swing.JFrame {
             String namaAkhir = (String) tableModel.getValueAt(row, 1);
             String saldo = tableModel.getValueAt(row, 2).toString();
             
-            formNamaAwal.setText(namaAwal);
-            formNamaAkhir.setText(namaAkhir);
-            formSaldo.setText(saldo);
+            setForm(namaAwal, namaAkhir, saldo);
         }
     }//GEN-LAST:event_mouseClicked
 
+    private void setForm(String valueAwal, String valueAkhir, String valueSaldo) {
+        formNamaAwal.setText(valueAwal);
+        formNamaAkhir.setText(valueAkhir);
+        formSaldo.setText(valueSaldo);
+    }
+    
+    private void displayDialog(String message) {
+        JOptionPane.showMessageDialog(null, message);
+    }
+    
     /**
      * @param args the command line arguments
      */

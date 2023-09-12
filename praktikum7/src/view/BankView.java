@@ -5,73 +5,11 @@
 package view;
 import javax.swing.JOptionPane;
 import perbankan.*;
-import java.util.List;
-import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.ListSelectionModel;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 /**
  *
  * @author jordan
  */
-
-//class NasabahListTableModel extends AbstractTableModel {
-//
-//    private List<Nasabah> nasabahList;
-//    private final String[] columnNames = {"Nama Awal", "Nama Akhir", "Saldo"};
-//
-//    public NasabahListTableModel(List<Nasabah> nasabahList) {
-//        this.nasabahList = nasabahList;
-//    }
-//
-//    @Override
-//    public int getRowCount() {
-//        return nasabahList == null ? 0 : nasabahList.size();
-//    }
-//
-//    @Override
-//    public int getColumnCount() {
-//        return columnNames.length;
-//    }
-//
-//    @Override
-//    public String getColumnName(int column) {
-//        return columnNames[column];
-//    }
-//
-//    @Override
-//    public Object getValueAt(int rowIndex, int columnIndex) {
-//        Nasabah data = nasabahList.get(rowIndex);
-//        return switch (columnIndex) {
-//            case 0 ->
-//                data.getNamaAwal();
-//            case 1 ->
-//                data.getNamaAkhir();
-//            case 2 ->
-//                data.getTabungan().getSaldo();
-//            default ->
-//                null;
-//        };
-//    }
-//
-//    public void addNasabah(Nasabah data) {
-//        if (nasabahList == null) {
-//            nasabahList = new ArrayList();
-//        }
-//        nasabahList.add(data);
-//        fireTableRowsInserted(nasabahList.size() - 1, nasabahList.size() - 1);
-//    }
-//
-//    public void removeNasabah(int rowIndex) {
-//        nasabahList.remove(rowIndex);
-//        fireTableRowsDeleted(rowIndex, rowIndex);
-//    }
-//
-//}
-
-
 public class BankView extends javax.swing.JFrame {
     
     private Bank bank;
@@ -110,10 +48,11 @@ public class BankView extends javax.swing.JFrame {
         btnTambahNasabah = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tableNasabah = new javax.swing.JTable();
-        formSaldo = new javax.swing.JTextField();
         labSaldo = new javax.swing.JLabel();
         btnHapus = new javax.swing.JButton();
         btnEdit = new javax.swing.JButton();
+        formSaldo = new javax.swing.JFormattedTextField();
+        btnSetorTarik = new javax.swing.JButton();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -151,7 +90,9 @@ public class BankView extends javax.swing.JFrame {
 
         formNamaAkhir.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
+        btnTambahNasabah.setBackground(new java.awt.Color(0, 153, 0));
         btnTambahNasabah.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnTambahNasabah.setForeground(java.awt.Color.white);
         btnTambahNasabah.setText("Tambah Nasabah");
         btnTambahNasabah.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -187,12 +128,12 @@ public class BankView extends javax.swing.JFrame {
             tableNasabah.getColumnModel().getColumn(2).setHeaderValue("Saldo");
         }
 
-        formSaldo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-
         labSaldo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         labSaldo.setText("Saldo");
 
+        btnHapus.setBackground(new java.awt.Color(204, 51, 0));
         btnHapus.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnHapus.setForeground(java.awt.Color.white);
         btnHapus.setText("Hapus Nasabah");
         btnHapus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -200,11 +141,31 @@ public class BankView extends javax.swing.JFrame {
             }
         });
 
+        btnEdit.setBackground(new java.awt.Color(204, 204, 0));
         btnEdit.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnEdit.setForeground(java.awt.Color.black);
         btnEdit.setText("Edit Nasabah");
         btnEdit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditActionPerformed(evt);
+            }
+        });
+
+        formSaldo.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
+        formSaldo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        formSaldo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                formSaldoActionPerformed(evt);
+            }
+        });
+
+        btnSetorTarik.setBackground(new java.awt.Color(0, 153, 153));
+        btnSetorTarik.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnSetorTarik.setForeground(java.awt.Color.white);
+        btnSetorTarik.setText("Setor Tarik");
+        btnSetorTarik.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSetorTarikActionPerformed(evt);
             }
         });
 
@@ -215,30 +176,30 @@ public class BankView extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1024, Short.MAX_VALUE)
+                    .addComponent(labTitle)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(labTitle)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
+                                .addComponent(labNamaAwal)
+                                .addGap(48, 48, 48))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(labNamaAwal)
-                                        .addGap(48, 48, 48))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(labNamaAkhir, javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(labSaldo, javax.swing.GroupLayout.Alignment.LEADING))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(formNamaAkhir)
-                                    .addComponent(formNamaAwal)
-                                    .addComponent(formSaldo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE))
-                                .addGap(138, 138, 138)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnHapus, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnTambahNasabah))))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                                    .addComponent(labNamaAkhir, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(labSaldo, javax.swing.GroupLayout.Alignment.LEADING))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(formNamaAkhir, javax.swing.GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE)
+                            .addComponent(formNamaAwal)
+                            .addComponent(formSaldo))
+                        .addGap(138, 138, 138)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnHapus, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnTambahNasabah)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnSetorTarik))))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1024, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -251,7 +212,8 @@ public class BankView extends javax.swing.JFrame {
                     .addComponent(formNamaAwal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(labNamaAwal)
-                        .addComponent(btnTambahNasabah)))
+                        .addComponent(btnTambahNasabah)
+                        .addComponent(btnSetorTarik)))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(formNamaAkhir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -259,9 +221,9 @@ public class BankView extends javax.swing.JFrame {
                     .addComponent(btnHapus))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(formSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEdit)
-                    .addComponent(labSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(labSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(formSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 429, Short.MAX_VALUE)
                 .addContainerGap())
@@ -278,13 +240,13 @@ public class BankView extends javax.swing.JFrame {
         // catch form values and store to vars
         String namaAwal = formNamaAwal.getText();
         String namaAkhir = formNamaAkhir.getText();
-        int saldo = formSaldo.getText().equals("") ? 0 : Integer.parseInt(formSaldo.getText()); 
+        long saldo = formSaldo.getValue() == null ? 0 : (long)formSaldo.getValue();
         
         // formNama* shouldn't be empty
         if(!namaAwal.equals("") && !namaAkhir.equals("")) {
             // add nasabah object and set saldo
             this.bank.tambahNasabah(namaAwal, namaAkhir);
-            this.bank.getNasabah(this.index).setTabungan(new Tabungan(saldo));
+            this.bank.getNasabah(this.index).setTabungan(new Tabungan((int)saldo));
             
             // add nasabah attributes into table rows
             tableModel.addRow(new Object[]{bank.getNasabah(this.index).getNamaAwal(), 
@@ -293,8 +255,9 @@ public class BankView extends javax.swing.JFrame {
             
             // increment nasabah count
             this.index++;
+            this.pointedIndex = -1;
             
-            setForm("", "", "");
+            setForm("", "", 0);
             displayDialog("Berhasil menambah nasabah");
         } else {
             displayDialog("Mohon lengkapi data");
@@ -302,15 +265,16 @@ public class BankView extends javax.swing.JFrame {
     }//GEN-LAST:event_btnTambahNasabahActionPerformed
 
     private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
-        // delete row and delete object
+        this.pointedIndex = tableNasabah.getSelectedRow();
         try {
             int rowIndex = tableNasabah.getSelectedRow();
-            tableModel.removeRow(rowIndex);
-            this.bank.hapusNasabah(rowIndex);
+            tableModel.removeRow(this.pointedIndex);
+            this.bank.hapusNasabah(this.pointedIndex);
             this.index--;
-            setForm("", "", "");
+            this.pointedIndex = -1;
+            setForm("", "", 0);
         } catch(Exception e) {
-            JOptionPane.showMessageDialog(null, e.toString() + "\n" + "Mohon pilih data nasabah");
+            displayDialog(e.toString() + "\nMohon pilih data nasabah");
         }
     }//GEN-LAST:event_btnHapusActionPerformed
 
@@ -319,39 +283,55 @@ public class BankView extends javax.swing.JFrame {
         // TODO add your handling code here:
         String namaAwal = formNamaAwal.getText();
         String namaAkhir = formNamaAkhir.getText();
-        int saldo = Integer.parseInt(formSaldo.getText());
         
         try {
-                this.bank.editNasabah(this.pointedIndex, namaAwal, namaAkhir);
-                tableNasabah.setValueAt(namaAwal,this.pointedIndex, 0);
-                tableNasabah.setValueAt(namaAkhir,this.pointedIndex, 1);
-            } catch (Exception e) {
-                displayDialog(e.toString());
-            }
+            this.bank.editNasabah(this.pointedIndex, namaAwal, namaAkhir);
+            tableNasabah.setValueAt(this.bank.getNasabah(this.pointedIndex).getNamaAwal(),this.pointedIndex, 0);
+            tableNasabah.setValueAt(this.bank.getNasabah(this.pointedIndex).getNamaAkhir(),this.pointedIndex, 1);
+        } catch (Exception e) {
+            displayDialog(e.toString() + "\nMohon pilih data nasabah");
+        }
         
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void mouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mouseClicked
         // TODO add your handling code here:
         int row = tableNasabah.rowAtPoint(evt.getPoint());
-        this.pointedIndex = tableNasabah.getSelectedRow();
+        this.pointedIndex = row;
         
         if(row >= 0) {
             String namaAwal = (String) tableModel.getValueAt(row, 0);
             String namaAkhir = (String) tableModel.getValueAt(row, 1);
-            String saldo = tableModel.getValueAt(row, 2).toString();
+            int saldo = (int)tableModel.getValueAt(row, 2);
             
             setForm(namaAwal, namaAkhir, saldo);
         }
     }//GEN-LAST:event_mouseClicked
 
-    private void setForm(String valueAwal, String valueAkhir, String valueSaldo) {
+    private void formSaldoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_formSaldoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formSaldoActionPerformed
+
+    private void btnSetorTarikActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSetorTarikActionPerformed
+    // TODO add your handling code here:
+        try {
+            this.pointedIndex = tableNasabah.getSelectedRow();
+            
+            // send the whole bank object, selected index, and the table to transaksi
+            TransaksiView view = new TransaksiView(this.bank, this.pointedIndex, tableModel);
+            view.setVisible(true);
+        } catch(Exception e) {
+            displayDialog(e.toString() + "\nMohon pilih data terlebih dahulu");
+        }
+    }//GEN-LAST:event_btnSetorTarikActionPerformed
+
+    private void setForm(String valueAwal, String valueAkhir, int valueSaldo) {
         formNamaAwal.setText(valueAwal);
         formNamaAkhir.setText(valueAkhir);
-        formSaldo.setText(valueSaldo);
+        formSaldo.setValue(valueSaldo);
     }
     
-    private void displayDialog(String message) {
+    public void displayDialog(String message) {
         JOptionPane.showMessageDialog(null, message);
     }
     
@@ -394,10 +374,11 @@ public class BankView extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEdit;
     private javax.swing.JButton btnHapus;
+    private javax.swing.JButton btnSetorTarik;
     private javax.swing.JButton btnTambahNasabah;
     private javax.swing.JTextField formNamaAkhir;
     private javax.swing.JTextField formNamaAwal;
-    private javax.swing.JTextField formSaldo;
+    private javax.swing.JFormattedTextField formSaldo;
     private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;

@@ -29,9 +29,9 @@ public class Nasabah {
     public Tabungan getTabungan() {
         return tabungan;
     }
-    
+   
     public void setTabungan(Tabungan tabungan) {
-        this.tabungan = tabungan;
+        this.tabungan = tabungan; // ASOSIASI
     }
     
     // HOTFIX : add setter namaAwal

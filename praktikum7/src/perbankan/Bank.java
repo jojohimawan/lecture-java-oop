@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * @author jordan
  */
 public class Bank {
-    ArrayList<Nasabah> nasabah = new ArrayList<Nasabah>(); 
+    private ArrayList<Nasabah> nasabah =  new ArrayList<Nasabah>(); 
     private int jumlahNasabah;
     
     public Bank() {

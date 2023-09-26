@@ -53,6 +53,7 @@ public class BankView extends javax.swing.JFrame {
         btnEdit = new javax.swing.JButton();
         formSaldo = new javax.swing.JFormattedTextField();
         btnSetorTarik = new javax.swing.JButton();
+        btnKeluar = new javax.swing.JButton();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -169,6 +170,14 @@ public class BankView extends javax.swing.JFrame {
             }
         });
 
+        btnKeluar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnKeluar.setText("Keluar");
+        btnKeluar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnKeluarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -199,7 +208,10 @@ public class BankView extends javax.swing.JFrame {
                                 .addComponent(btnTambahNasabah)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btnSetorTarik))))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1024, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1024, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnKeluar)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -225,7 +237,9 @@ public class BankView extends javax.swing.JFrame {
                     .addComponent(labSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(formSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 429, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnKeluar)
                 .addContainerGap())
         );
 
@@ -325,6 +339,12 @@ public class BankView extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnSetorTarikActionPerformed
 
+    private void btnKeluarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKeluarActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+        new LoginView().setVisible(true);
+    }//GEN-LAST:event_btnKeluarActionPerformed
+
     private void setForm(String valueAwal, String valueAkhir, int valueSaldo) {
         formNamaAwal.setText(valueAwal);
         formNamaAkhir.setText(valueAkhir);
@@ -366,7 +386,7 @@ public class BankView extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new BankView().setVisible(true);
+//                new BankView().setVisible(true);
             }
         });
     }
@@ -374,6 +394,7 @@ public class BankView extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEdit;
     private javax.swing.JButton btnHapus;
+    private javax.swing.JButton btnKeluar;
     private javax.swing.JButton btnSetorTarik;
     private javax.swing.JButton btnTambahNasabah;
     private javax.swing.JTextField formNamaAkhir;

@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ClassDiagram name="praktikum7">
+  <ClassDiagramComponents>
+    <Class name="Bank" package="perbankan" visibility="public" xPosition="172.0" yPosition="429.0">
+      <Fields>
+        <Field name="nasabah" type="ArrayList&lt;Nasabah&gt;" visibility="package"/>
+        <Field name="jumlahNasabah" type="int" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="tambahNasabah" returnType="void" visibility="public">
+          <Argument type="String" name="namaAwal"/>
+          <Argument type="String" name="namaAkhir"/>
+        </Method>
+        <Method name="getJumlahNasabah" returnType="int" visibility="public"/>
+        <Method name="getNasabah" returnType="Nasabah" visibility="public">
+          <Argument type="int" name="index"/>
+        </Method>
+        <Method name="hapusNasabah" returnType="void" visibility="public">
+          <Argument type="int" name="index"/>
+        </Method>
+        <Method name="editNasabah" returnType="void" visibility="public">
+          <Argument type="int" name="index"/>
+          <Argument type="String" name="namaAwal"/>
+          <Argument type="String" name="namaAkhir"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Nasabah" package="perbankan" visibility="public" xPosition="209.0" yPosition="43.0">
+      <Fields>
+        <Field name="namaAwal" type="String" visibility="private"/>
+        <Field name="namaAkhir" type="String" visibility="private"/>
+        <Field name="tabungan" type="Tabungan" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="String" name="namaAwal"/>
+          <Argument type="String" name="namaAkhir"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getNamaAwal" returnType="String" visibility="public"/>
+        <Method name="getNamaAkhir" returnType="String" visibility="public"/>
+        <Method name="getTabungan" returnType="Tabungan" visibility="public"/>
+        <Method name="setTabungan" returnType="void" visibility="public">
+          <Argument type="Tabungan" name="tabungan"/>
+        </Method>
+        <Method name="setNamaAwal" returnType="void" visibility="public">
+          <Argument type="String" name="namaAwal"/>
+        </Method>
+        <Method name="setNamaAkhir" returnType="void" visibility="public">
+          <Argument type="String" name="namaAkhir"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Tabungan" package="perbankan" visibility="public" xPosition="670.0" yPosition="90.0">
+      <Fields>
+        <Field name="saldo" type="int" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="int" name="saldo"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getSaldo" returnType="int" visibility="public"/>
+        <Method name="simpanUang" returnType="void" visibility="public">
+          <Argument type="int" name="jumlah"/>
+        </Method>
+        <Method name="ambilUang" returnType="boolean" visibility="public">
+          <Argument type="int" name="jumlah"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="TesLatihan" package="test" visibility="public" xPosition="950.0" yPosition="90.0">
+      <Fields/>
+      <Constructors/>
+      <Methods>
+        <Method name="main" returnType="void" visibility="public" isStatic="true">
+          <Argument type="String[]" name="args"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="TesTugas" package="test" visibility="public" xPosition="1240.0" yPosition="90.0">
+      <Fields/>
+      <Constructors/>
+      <Methods>
+        <Method name="main" returnType="void" visibility="public" isStatic="true">
+          <Argument type="String[]" name="args"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="BankView" package="view" visibility="public" xPosition="761.0" yPosition="576.0">
+      <Fields>
+        <Field name="bank" type="Bank" visibility="private"/>
+        <Field name="tableModel" type="DefaultTableModel" visibility="private" isFinal="true"/>
+        <Field name="index" type="int" visibility="private"/>
+        <Field name="pointedIndex" type="int" visibility="private"/>
+        <Field name="btnEdit" type="javax.swing.JButton" visibility="private"/>
+        <Field name="btnHapus" type="javax.swing.JButton" visibility="private"/>
+        <Field name="btnSetorTarik" type="javax.swing.JButton" visibility="private"/>
+        <Field name="btnTambahNasabah" type="javax.swing.JButton" visibility="private"/>
+        <Field name="formNamaAkhir" type="javax.swing.JTextField" visibility="private"/>
+        <Field name="formNamaAwal" type="javax.swing.JTextField" visibility="private"/>
+        <Field name="formSaldo" type="javax.swing.JFormattedTextField" visibility="private"/>
+        <Field name="jButton1" type="javax.swing.JButton" visibility="private"/>
+        <Field name="jScrollPane1" type="javax.swing.JScrollPane" visibility="private"/>
+        <Field name="jScrollPane2" type="javax.swing.JScrollPane" visibility="private"/>
+        <Field name="jTable1" type="javax.swing.JTable" visibility="private"/>
+        <Field name="labNamaAkhir" type="javax.swing.JLabel" visibility="private"/>
+        <Field name="labNamaAwal" type="javax.swing.JLabel" visibility="private"/>
+        <Field name="labSaldo" type="javax.swing.JLabel" visibility="private"/>
+        <Field name="labTitle" type="javax.swing.JLabel" visibility="private"/>
+        <Field name="tableNasabah" type="javax.swing.JTable" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="initComponents" returnType="// &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;Generated Code&quot;&gt;//GEN-BEGIN:initComponents void" visibility="private"/>
+        <Method name="formNamaAwalActionPerformed" returnType="void" visibility="private">
+          <Argument type="java.awt.event.ActionEvent" name="evt"/>
+        </Method>
+        <Method name="btnTambahNasabahActionPerformed" returnType="void" visibility="private">
+          <Argument type="java.awt.event.ActionEvent" name="evt"/>
+        </Method>
+        <Method name="btnHapusActionPerformed" returnType="void" visibility="private">
+          <Argument type="java.awt.event.ActionEvent" name="evt"/>
+        </Method>
+        <Method name="btnEditActionPerformed" returnType="void" visibility="private">
+          <Argument type="java.awt.event.ActionEvent" name="evt"/>
+        </Method>
+        <Method name="mouseClicked" returnType="void" visibility="private">
+          <Argument type="java.awt.event.MouseEvent" name="evt"/>
+        </Method>
+        <Method name="formSaldoActionPerformed" returnType="void" visibility="private">
+          <Argument type="java.awt.event.ActionEvent" name="evt"/>
+        </Method>
+        <Method name="btnSetorTarikActionPerformed" returnType="void" visibility="private">
+          <Argument type="java.awt.event.ActionEvent" name="evt"/>
+        </Method>
+        <Method name="setForm" returnType="void" visibility="private">
+          <Argument type="String" name="valueAwal"/>
+          <Argument type="String" name="valueAkhir"/>
+          <Argument type="int" name="valueSaldo"/>
+        </Method>
+        <Method name="displayDialog" returnType="void" visibility="public">
+          <Argument type="String" name="message"/>
+        </Method>
+        <Method name="main" returnType="void" visibility="public" isStatic="true">
+          <Argument type="String" name="args"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="TransaksiView" package="view" visibility="public" xPosition="1488.0" yPosition="212.0">
+      <Fields>
+        <Field name="bank" type="Bank" visibility="private"/>
+        <Field name="index" type="int" visibility="private"/>
+        <Field name="tableModel" type="DefaultTableModel" visibility="private"/>
+        <Field name="btnBatal" type="javax.swing.JButton" visibility="private"/>
+        <Field name="btnSetor" type="javax.swing.JButton" visibility="private"/>
+        <Field name="btnTarik" type="javax.swing.JButton" visibility="private"/>
+        <Field name="formNominal" type="javax.swing.JFormattedTextField" visibility="private"/>
+        <Field name="jFormattedTextField1" type="javax.swing.JFormattedTextField" visibility="private"/>
+        <Field name="jLabel1" type="javax.swing.JLabel" visibility="private"/>
+        <Field name="jLabel2" type="javax.swing.JLabel" visibility="private"/>
+        <Field name="jLabel3" type="javax.swing.JLabel" visibility="private"/>
+        <Field name="jLabel4" type="javax.swing.JLabel" visibility="private"/>
+        <Field name="jLabel5" type="javax.swing.JLabel" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="Bank" name="bank"/>
+          <Argument type="int" name="index"/>
+          <Argument type="DefaultTableModel" name="tableModel"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="initComponents" returnType="// &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;Generated Code&quot;&gt;//GEN-BEGIN:initComponents void" visibility="private"/>
+        <Method name="formNominalActionPerformed" returnType="void" visibility="private">
+          <Argument type="java.awt.event.ActionEvent" name="evt"/>
+        </Method>
+        <Method name="btnSetorActionPerformed" returnType="void" visibility="private">
+          <Argument type="java.awt.event.ActionEvent" name="evt"/>
+        </Method>
+        <Method name="btnTarikActionPerformed" returnType="void" visibility="private">
+          <Argument type="java.awt.event.ActionEvent" name="evt"/>
+        </Method>
+        <Method name="btnBatalActionPerformed" returnType="void" visibility="private">
+          <Argument type="java.awt.event.ActionEvent" name="evt"/>
+        </Method>
+        <Method name="main" returnType="void" visibility="public" isStatic="true">
+          <Argument type="String" name="args"/>
+        </Method>
+      </Methods>
+    </Class>
+  </ClassDiagramComponents>
+  <ClassDiagramRelations>
+    <HasRelation name="nasabah" source="perbankan.Bank" target="perbankan.Nasabah" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="ArrayList&lt;Nasabah&gt;"/>
+    <HasRelation name="bank" source="view.BankView" target="perbankan.Bank" type="Composition" sourceCardinality="0..1" targetCardinality="1..1"/>
+    <HasRelation name="nasabah" source="perbankan.Nasabah" target="perbankan.Tabungan" type="Default" sourceCardinality="0..1" targetCardinality="1..1"/>
+    <UseRelation source="perbankan.Nasabah" target="perbankan.Tabungan" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="atm" source="view.TransaksiView" target="perbankan.Bank" type="Default" sourceCardinality="0..1" targetCardinality="1..1"/>
+    <UseRelation source="perbankan.Bank" target="perbankan.Nasabah" sourceCardinality="1..1" targetCardinality="1..1"/>
+  </ClassDiagramRelations>
+</ClassDiagram>

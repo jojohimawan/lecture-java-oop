@@ -21,8 +21,6 @@ public class TransaksiView extends javax.swing.JFrame {
         this.index = index;
         this.tableModel = tableModel;
         initComponents();
-        
-        
     }
 
     /**

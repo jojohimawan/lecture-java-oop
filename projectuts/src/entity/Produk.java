@@ -14,7 +14,7 @@ public class Produk {
     private int stok;
     private int id;
     
-    public Produk(String produk, double harga, int stok, int id) {
+    public Produk(String nama, double harga, int stok, int id) {
         this.nama = nama;
         this.harga = harga;
         this.stok = stok;
@@ -22,7 +22,7 @@ public class Produk {
     }
 
     public String getNama() {
-        return nama;
+        return this.nama;
     }
 
     public void setNama(String nama) {

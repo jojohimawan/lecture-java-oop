@@ -25,10 +25,24 @@ public class Bisnis {
         return true;
     }
     
+    public void editProduk(String nama, double harga, int stok, int index) {
+        this.produk.get(index).setNama(nama);
+        this.produk.get(index).setHarga(harga);
+        this.produk.get(index).setStok(stok);
+    }
+    
     public boolean hapusProduk(int id) {
         if(this.produk.size() <= 0 || this.produk.size() < id) return false;
         
         this.produk.remove(id);
         return true;
+    }
+    
+    public Produk getProduk(int index) {
+        return this.produk.get(index);
+    }
+    
+    public int getProdukTotal() {
+        return this.produk.size();
     }
 }

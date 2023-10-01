@@ -4,20 +4,42 @@
  */
 package view;
 import javax.swing.table.DefaultTableModel;
+import entity.Bisnis;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author jordan
  */
 public class BackOffice extends javax.swing.JFrame {
-//    private final DefaultTableModel model;
+    private final DefaultTableModel model;
+    private Bisnis bisnis;
     /**
      * Creates new form BackOffice
      */
     public BackOffice() {
-//        this.model = (DefaultTableModel) tbProduk.getModel();
-//        this.model.setRowCount(0);
         initComponents();
+        this.bisnis = new Bisnis();
+        this.model = (DefaultTableModel) tbProduk.getModel();
+        this.model.setRowCount(0);
+    }
+    
+    public BackOffice(Bisnis bisnis) {
+        initComponents();
+        this.model = (DefaultTableModel) tbProduk.getModel();
+        this.bisnis = bisnis;
+        
+        populateTable(bisnis);
+    }
+    
+    public void populateTable(Bisnis bisnis) {
+        for(int i = 0; i < this.bisnis.getProdukTotal(); i++) {
+            this.model.addRow(new Object[]{this.bisnis.getProduk(i).getId(), 
+                this.bisnis.getProduk(i).getNama(), 
+                this.bisnis.getProduk(i).getHarga(),
+                this.bisnis.getProduk(i).getStok(),
+        });
+        }
     }
 
     /**
@@ -32,12 +54,8 @@ public class BackOffice extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbProduk = new javax.swing.JTable();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
+        btnTambah = new javax.swing.JButton();
+        btnDefault = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -46,10 +64,7 @@ public class BackOffice extends javax.swing.JFrame {
 
         tbProduk.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "ID", "Nama", "Harga", "Stok"
@@ -72,75 +87,79 @@ public class BackOffice extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tbProduk);
 
-        jLabel2.setFont(new java.awt.Font("Plus Jakarta Sans SemiBold", 0, 14)); // NOI18N
-        jLabel2.setText("Nama Produk");
+        btnTambah.setFont(new java.awt.Font("Plus Jakarta Sans Medium", 0, 14)); // NOI18N
+        btnTambah.setText("Manajemen Produk");
+        btnTambah.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTambahActionPerformed(evt);
+            }
+        });
 
-        jLabel3.setFont(new java.awt.Font("Plus Jakarta Sans SemiBold", 0, 14)); // NOI18N
-        jLabel3.setText("Harga");
-
-        jLabel4.setFont(new java.awt.Font("Plus Jakarta Sans SemiBold", 0, 14)); // NOI18N
-        jLabel4.setText("Stok");
-
-        jTextField1.setFont(new java.awt.Font("Plus Jakarta Sans Medium", 0, 14)); // NOI18N
-        jTextField1.setText("jTextField1");
-
-        jTextField2.setFont(new java.awt.Font("Plus Jakarta Sans Medium", 0, 14)); // NOI18N
-        jTextField2.setText("jTextField1");
-
-        jTextField3.setFont(new java.awt.Font("Plus Jakarta Sans Medium", 0, 14)); // NOI18N
-        jTextField3.setText("jTextField1");
+        btnDefault.setFont(new java.awt.Font("Plus Jakarta Sans Medium", 0, 14)); // NOI18N
+        btnDefault.setText("Tambah Default");
+        btnDefault.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDefaultActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(24, 24, 24)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(52, 52, 52)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addGap(75, 75, 75)
-                                .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 405, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel3))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 405, Short.MAX_VALUE)
-                                    .addComponent(jTextField1)))))
-                    .addComponent(jLabel1))
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 503, Short.MAX_VALUE)
+                        .addComponent(btnDefault)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnTambah)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(24, 24, 24)
-                .addComponent(jLabel1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(btnTambah)
+                    .addComponent(btnDefault))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 477, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnDefaultActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDefaultActionPerformed
+        // TODO add your handling code here:
+        String[] namaProds = {"Barang 1", "Barang 2", "Barang 3", "Barang 4", "Barang 5", "Barang 6", "Barang 7", "Barang 8", "Barang 9"};
+        double[] harga = {29000, 28000, 27000, 26000, 25000, 24000, 23000, 22000, 21000};
+        int [] stok = {18, 16, 14, 12, 10,  8, 6, 4, 2};
+        
+        for(int i = 0; i < 9; i++) {
+            boolean tambah = this.bisnis.tambahProduk(namaProds[i], harga[i], stok[i]);
+            if(!tambah) {
+                JOptionPane.showMessageDialog(null, "Gagal menambah produk");
+                break;
+            }
+            this.model.addRow(new Object[]{this.bisnis.getProduk(i).getId(), 
+                this.bisnis.getProduk(i).getNama(), 
+                this.bisnis.getProduk(i).getHarga(),
+                this.bisnis.getProduk(i).getStok(),
+            });
+        }
+    }//GEN-LAST:event_btnDefaultActionPerformed
+
+    private void btnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahActionPerformed
+        // TODO add your handling code here:
+        new BackOfficeForm(this.bisnis).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnTambahActionPerformed
 
     /**
      * @param args the command line arguments
@@ -168,6 +187,9 @@ public class BackOffice extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(BackOffice.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -178,14 +200,10 @@ public class BackOffice extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnDefault;
+    private javax.swing.JButton btnTambah;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JTable tbProduk;
     // End of variables declaration//GEN-END:variables
 }

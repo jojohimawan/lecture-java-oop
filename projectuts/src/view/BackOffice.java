@@ -56,6 +56,7 @@ public class BackOffice extends javax.swing.JFrame {
         tbProduk = new javax.swing.JTable();
         btnTambah = new javax.swing.JButton();
         btnDefault = new javax.swing.JButton();
+        btnFO = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -103,6 +104,15 @@ public class BackOffice extends javax.swing.JFrame {
             }
         });
 
+        btnFO.setFont(new java.awt.Font("Plus Jakarta Sans Medium", 0, 14)); // NOI18N
+        btnFO.setText("Front Office");
+        btnFO.setToolTipText("");
+        btnFO.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFOActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -116,7 +126,10 @@ public class BackOffice extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 503, Short.MAX_VALUE)
                         .addComponent(btnDefault)
                         .addGap(18, 18, 18)
-                        .addComponent(btnTambah)))
+                        .addComponent(btnTambah))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnFO)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -128,6 +141,8 @@ public class BackOffice extends javax.swing.JFrame {
                     .addComponent(btnTambah)
                     .addComponent(btnDefault))
                 .addGap(18, 18, 18)
+                .addComponent(btnFO)
+                .addGap(24, 24, 24)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 477, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -137,7 +152,7 @@ public class BackOffice extends javax.swing.JFrame {
 
     private void btnDefaultActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDefaultActionPerformed
         // TODO add your handling code here:
-        String[] namaProds = {"Barang 1", "Barang 2", "Barang 3", "Barang 4", "Barang 5", "Barang 6", "Barang 7", "Barang 8", "Barang 9"};
+        String[] namaProds = {"Produk 1", "Barang 2", "Barang 3", "Barang 4", "Barang 5", "Barang 6", "Barang 7", "Barang 8", "Barang 9"};
         double[] harga = {29000, 28000, 27000, 26000, 25000, 24000, 23000, 22000, 21000};
         int [] stok = {18, 16, 14, 12, 10,  8, 6, 4, 2};
         
@@ -160,6 +175,12 @@ public class BackOffice extends javax.swing.JFrame {
         new BackOfficeForm(this.bisnis).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnTambahActionPerformed
+
+    private void btnFOActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFOActionPerformed
+        // TODO add your handling code here:
+        new FrontOffice(this.bisnis).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnFOActionPerformed
 
     /**
      * @param args the command line arguments
@@ -201,6 +222,7 @@ public class BackOffice extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDefault;
+    private javax.swing.JButton btnFO;
     private javax.swing.JButton btnTambah;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;

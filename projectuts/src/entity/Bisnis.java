@@ -11,12 +11,15 @@ import java.util.ArrayList;
 public class Bisnis {
     private ArrayList<Produk> produk;
     private int jumlahProduk;
+    private Keranjang keranjang;
     
     public Bisnis() {
         this.produk = new ArrayList<>();
+        this.keranjang = new Keranjang();
         this.jumlahProduk = 0;
     }
     
+    // PRODUK METHODS
     public boolean tambahProduk(String nama, double harga, int stok) {
         if(this.produk.size() == 9) return false;
         
@@ -44,5 +47,14 @@ public class Bisnis {
     
     public int getProdukTotal() {
         return this.produk.size();
+    }
+    
+    // KERANJANG METHODS
+    public void tambahItemKeranjang(Produk produk, int qty, double subtotal) {
+        this.keranjang.tambahItem(produk, qty, subtotal);
+    }
+    
+    public Keranjang getKeranjang() {
+        return this.keranjang;
     }
 }

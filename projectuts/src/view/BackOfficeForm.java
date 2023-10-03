@@ -24,7 +24,6 @@ public class BackOfficeForm extends javax.swing.JFrame {
         this.bisnis = bisnis;
         this.model = (DefaultTableModel) tbProduk.getModel();
         this.model.setRowCount(0);
-        this.index = 0;
         
         populateTable(bisnis);
     }
@@ -233,7 +232,7 @@ public class BackOfficeForm extends javax.swing.JFrame {
         // catch values
         String namaProd = tfNamaProd.getText();
         double harga = Double.parseDouble(tfHarga.getText());
-        int stok = tfStok.getText() == null ? 0 : Integer.parseInt(tfHarga.getText());
+        int stok = tfStok.getText() == null ? 0 : Integer.parseInt(tfStok.getText());
         
         // call add method
         boolean tambah = this.bisnis.tambahProduk(namaProd, harga, stok);
@@ -241,6 +240,7 @@ public class BackOfficeForm extends javax.swing.JFrame {
         // if add returns false, means that produk.size == 9
         if(!tambah) JOptionPane.showMessageDialog(null, "Jumlah produk maksimal");
         else {
+            this.index++;
             this.model.addRow(new Object[]{this.bisnis.getProduk(this.index).getId(), 
                 this.bisnis.getProduk(this.index).getNama(), 
                 this.bisnis.getProduk(this.index).getHarga(),

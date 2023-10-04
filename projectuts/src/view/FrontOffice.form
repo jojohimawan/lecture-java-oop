@@ -219,6 +219,9 @@
           <Connection code="this.bisnis.getProduk(1).getNama()" type="code"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnProduk2ActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnProduk3">
       <Properties>
@@ -226,6 +229,9 @@
           <Connection code="this.bisnis.getProduk(2).getNama()" type="code"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnProduk3ActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnProduk4">
       <Properties>
@@ -233,6 +239,9 @@
           <Connection code="this.bisnis.getProduk(3).getNama()" type="code"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnProduk4ActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnProduk5">
       <Properties>
@@ -240,6 +249,9 @@
           <Connection code="this.bisnis.getProduk(4).getNama()" type="code"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnProduk5ActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnProduk6">
       <Properties>
@@ -247,6 +259,9 @@
           <Connection code="this.bisnis.getProduk(5).getNama()" type="code"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnProduk6ActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnProduk7">
       <Properties>
@@ -264,6 +279,9 @@
           <Connection code="this.bisnis.getProduk(7).getNama()" type="code"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnProduk8ActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnProduk9">
       <Properties>
@@ -271,6 +289,9 @@
           <Connection code="this.bisnis.getProduk(8).getNama()" type="code"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnProduk9ActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
@@ -316,7 +337,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Plus Jakarta Sans SemiBold" size="24" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="45000"/>
+        <Property name="text" type="java.lang.String" value="0"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="btnBayar">
@@ -326,6 +347,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="BAYAR"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBayarActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel6">
       <Properties>

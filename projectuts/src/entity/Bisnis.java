@@ -10,12 +10,15 @@ import java.util.ArrayList;
  */
 public class Bisnis {
     private ArrayList<Produk> produk;
-    private int jumlahProduk;
     private Keranjang keranjang;
+    private Transaksi transaksi;
+    
+    private int jumlahProduk;
     
     public Bisnis() {
         this.produk = new ArrayList<>();
         this.keranjang = new Keranjang();
+        
         this.jumlahProduk = 0;
     }
     
@@ -57,4 +60,14 @@ public class Bisnis {
     public Keranjang getKeranjang() {
         return this.keranjang;
     }
+    
+    // TRANSAKSI METHODS
+    public void buatTransaksi(Keranjang keranjang, double total, double cash, double change) {
+        this.transaksi = new Transaksi(keranjang, total, cash, change);
+    }
+    
+    public Transaksi getTransaksi() {
+        return this.transaksi;
+    }
+    
 }

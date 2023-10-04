@@ -4,6 +4,7 @@
  */
 package view;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.JOptionPane;
 import entity.Bisnis;
 /**
  *
@@ -12,6 +13,10 @@ import entity.Bisnis;
 public class FrontOffice extends javax.swing.JFrame {
     private Bisnis bisnis;
     private DefaultTableModel model;
+    
+    private double total;
+    private double change;
+    private int itemKeranjangCount;
     /**
      * Creates new form FrontOffice
      */
@@ -19,16 +24,29 @@ public class FrontOffice extends javax.swing.JFrame {
         this.bisnis = bisnis; // need to have obj 1st before initialising components (need to set btn text)
         initComponents();
         this.model = (DefaultTableModel) tbKeranjang.getModel();
+        
+        this.total = 0;
+        this.change = 0;
+        this.itemKeranjangCount = 0;
     }
     
-    private double hitungTotal() {
-        double total = 0;
-        for(int i = 0; i < this.bisnis.getKeranjang().getItemKeranjangSize(); i++ ) {
-            total += this.bisnis.getKeranjang().getItemKeranjang(i).getSubtotal();
-        }
-        
-        return total;
+    private void tambahKeranjang(int index) {
+        /* CONCERN: struggle ketika menambah item keranjang yang sama, jadi sementara
+                    qty dibikin statis */
+        this.bisnis.tambahItemKeranjang(this.bisnis.getProduk(index), 1, this.bisnis.getProduk(index).getHarga());
+        this.model.addRow(new Object[] {this.bisnis.getKeranjang().getItemKeranjang(this.itemKeranjangCount).getProduk().getNama(),
+            this.bisnis.getKeranjang().getItemKeranjang(this.itemKeranjangCount).getQty(),
+            this.bisnis.getKeranjang().getItemKeranjang(this.itemKeranjangCount).getSubtotal()
+        });
+        this.total += this.bisnis.getKeranjang().getItemKeranjang(this.itemKeranjangCount).getSubtotal();
+        this.itemKeranjangCount++;
+        this.labelTotal.setText(Double.toString(this.total));
     }
+    
+    private void buatStruk() {
+        this.taStruk.setText("test");
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -93,14 +111,39 @@ public class FrontOffice extends javax.swing.JFrame {
         });
 
         btnProduk2.setText(this.bisnis.getProduk(1).getNama());
+        btnProduk2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProduk2ActionPerformed(evt);
+            }
+        });
 
         btnProduk3.setText(this.bisnis.getProduk(2).getNama());
+        btnProduk3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProduk3ActionPerformed(evt);
+            }
+        });
 
         btnProduk4.setText(this.bisnis.getProduk(3).getNama());
+        btnProduk4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProduk4ActionPerformed(evt);
+            }
+        });
 
         btnProduk5.setText(this.bisnis.getProduk(4).getNama());
+        btnProduk5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProduk5ActionPerformed(evt);
+            }
+        });
 
         btnProduk6.setText(this.bisnis.getProduk(5).getNama());
+        btnProduk6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProduk6ActionPerformed(evt);
+            }
+        });
 
         btnProduk7.setText(this.bisnis.getProduk(6).getNama());
         btnProduk7.addActionListener(new java.awt.event.ActionListener() {
@@ -110,8 +153,18 @@ public class FrontOffice extends javax.swing.JFrame {
         });
 
         btnProduk8.setText(this.bisnis.getProduk(7).getNama());
+        btnProduk8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProduk8ActionPerformed(evt);
+            }
+        });
 
         btnProduk9.setText(this.bisnis.getProduk(8).getNama());
+        btnProduk9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProduk9ActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Plus Jakarta Sans SemiBold", 0, 24)); // NOI18N
         jLabel1.setText("Total:");
@@ -128,10 +181,15 @@ public class FrontOffice extends javax.swing.JFrame {
         tfCash.setFont(new java.awt.Font("Poppins Medium", 0, 18)); // NOI18N
 
         labelChange.setFont(new java.awt.Font("Plus Jakarta Sans SemiBold", 0, 24)); // NOI18N
-        labelChange.setText("45000");
+        labelChange.setText("0");
 
         btnBayar.setFont(new java.awt.Font("Plus Jakarta Sans SemiBold", 0, 24)); // NOI18N
         btnBayar.setText("BAYAR");
+        btnBayar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBayarActionPerformed(evt);
+            }
+        });
 
         jLabel6.setFont(new java.awt.Font("Plus Jakarta Sans SemiBold", 0, 24)); // NOI18N
         jLabel6.setText("KomaPOS Front Office");
@@ -237,17 +295,63 @@ public class FrontOffice extends javax.swing.JFrame {
 
     private void btnProduk7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProduk7ActionPerformed
         // TODO add your handling code here:
+        tambahKeranjang(6);
     }//GEN-LAST:event_btnProduk7ActionPerformed
 
     private void btnProduk1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProduk1ActionPerformed
         // TODO add your handling code here:
-        this.bisnis.tambahItemKeranjang(this.bisnis.getProduk(0), 1, this.bisnis.getProduk(0).getHarga());
-        this.model.addRow(new Object[] {this.bisnis.getKeranjang().getItemKeranjang(0).getProduk().getNama(),
-            this.bisnis.getKeranjang().getItemKeranjang(0).getQty(),
-            this.bisnis.getKeranjang().getItemKeranjang(0).getSubtotal()
-        });
+        tambahKeranjang(0);
         
     }//GEN-LAST:event_btnProduk1ActionPerformed
+
+    private void btnProduk2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProduk2ActionPerformed
+        // TODO add your handling code here:
+        tambahKeranjang(1);
+    }//GEN-LAST:event_btnProduk2ActionPerformed
+
+    private void btnProduk3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProduk3ActionPerformed
+        // TODO add your handling code here:
+        tambahKeranjang(2);
+    }//GEN-LAST:event_btnProduk3ActionPerformed
+
+    private void btnProduk4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProduk4ActionPerformed
+        // TODO add your handling code here:
+        tambahKeranjang(3);
+    }//GEN-LAST:event_btnProduk4ActionPerformed
+
+    private void btnProduk5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProduk5ActionPerformed
+        // TODO add your handling code here:
+        tambahKeranjang(4);
+    }//GEN-LAST:event_btnProduk5ActionPerformed
+
+    private void btnProduk6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProduk6ActionPerformed
+        // TODO add your handling code here:
+        tambahKeranjang(5);
+    }//GEN-LAST:event_btnProduk6ActionPerformed
+
+    private void btnProduk8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProduk8ActionPerformed
+        // TODO add your handling code here:
+        tambahKeranjang(7);
+    }//GEN-LAST:event_btnProduk8ActionPerformed
+
+    private void btnProduk9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProduk9ActionPerformed
+        // TODO add your handling code here:
+        tambahKeranjang(8);
+    }//GEN-LAST:event_btnProduk9ActionPerformed
+
+    private void btnBayarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBayarActionPerformed
+        // TODO add your handling code here:
+        double cash = Double.parseDouble(this.tfCash.getText());
+        
+        if(cash < this.total) {
+            JOptionPane.showMessageDialog(null, "Uang ente kurang");
+        } else {
+            this.labelChange.setText(Double.toString(cash - this.total));
+        }
+        
+        this.bisnis.buatTransaksi(this.bisnis.getKeranjang(), this.total, cash, this.change);
+        buatStruk();
+    }//GEN-LAST:event_btnBayarActionPerformed
 
     /**
      * @param args the command line arguments

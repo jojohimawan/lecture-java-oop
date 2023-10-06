@@ -62,8 +62,8 @@ public class Bisnis {
     }
     
     // TRANSAKSI METHODS
-    public void buatTransaksi(Keranjang keranjang, double total, double cash, double change) {
-        this.transaksi = new Transaksi(keranjang, total, cash, change);
+    public void buatTransaksi(double subtotal, double nominalPpn, double total, double cash, double change, double ppn) {
+        this.transaksi = new Transaksi(subtotal, nominalPpn, total, cash, change, ppn);
     }
     
     public Transaksi getTransaksi() {

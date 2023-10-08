@@ -9,6 +9,8 @@ package entity;
  * @author jordan
  */
 public class Transaksi {
+    private Member member;
+    
     private double total;
     private double subtotal;
     private double cash;
@@ -72,6 +74,14 @@ public class Transaksi {
 
     public void setNominalPpn(double nominalPpn) {
         this.nominalPpn = nominalPpn;
+    }
+
+    public Member getMember() {
+        return member;
+    }
+
+    public void setMember(Member member) {
+        this.member = member;
     }
     
     

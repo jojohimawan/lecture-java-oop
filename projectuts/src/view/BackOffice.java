@@ -73,7 +73,6 @@ public class BackOffice extends javax.swing.JFrame {
         btnFO = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblMember = new javax.swing.JTable();
-        btnMemberDefault = new javax.swing.JButton();
         btnTambahMember = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -141,14 +140,6 @@ public class BackOffice extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(tblMember);
 
-        btnMemberDefault.setFont(new java.awt.Font("Plus Jakarta Sans Medium", 0, 14)); // NOI18N
-        btnMemberDefault.setText("Tambah Default");
-        btnMemberDefault.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMemberDefaultActionPerformed(evt);
-            }
-        });
-
         btnTambahMember.setFont(new java.awt.Font("Plus Jakarta Sans Medium", 0, 14)); // NOI18N
         btnTambahMember.setText("Manajemen Member");
         btnTambahMember.addActionListener(new java.awt.event.ActionListener() {
@@ -171,16 +162,13 @@ public class BackOffice extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnDefault)
                         .addGap(18, 18, 18)
+                        .addComponent(btnTambahMember)
+                        .addGap(18, 18, 18)
                         .addComponent(btnTambah))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 656, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(803, 803, 803)
-                        .addComponent(btnMemberDefault)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnTambahMember)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 656, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -191,12 +179,9 @@ public class BackOffice extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addComponent(btnTambah)
                     .addComponent(btnDefault)
-                    .addComponent(btnFO))
-                .addGap(24, 24, 24)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnTambahMember)
-                    .addComponent(btnMemberDefault))
-                .addGap(18, 18, 18)
+                    .addComponent(btnFO)
+                    .addComponent(btnTambahMember))
+                .addGap(68, 68, 68)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane1)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 477, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -224,6 +209,18 @@ public class BackOffice extends javax.swing.JFrame {
                 this.bisnis.getProduk(i).getStok(),
             });
         }
+        
+        String[] namaMember = {"Member 1", "Member 2", "Member 3"};
+        String[] kodeMember = {"3ms4tu", "3mdu4", "3mt194"};
+        double[] potonganMember = {1000, 3000, 9000};
+        
+        for(int i = 0; i < 3; i++) {
+            this.bisnis.tambahMember(namaMember[i], kodeMember[i], potonganMember[i]);
+            this.memberModel.addRow(new Object[]{this.bisnis.getMember(i).getNama(),
+                this.bisnis.getMember(i).getKode(),
+                this.bisnis.getMember(i).getPotongan()
+            });
+        }
     }//GEN-LAST:event_btnDefaultActionPerformed
 
     private void btnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahActionPerformed
@@ -237,21 +234,6 @@ public class BackOffice extends javax.swing.JFrame {
         new FrontOffice(this.bisnis).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnFOActionPerformed
-
-    private void btnMemberDefaultActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMemberDefaultActionPerformed
-        // TODO add your handling code here:
-        String[] namaMember = {"Member 1", "Member 2", "Member 3"};
-        String[] kodeMember = {"3ms4tu", "3mdu4", "3mt194"};
-        double[] potonganMember = {1000, 3000, 9000};
-        
-        for(int i = 0; i < 3; i++) {
-            this.bisnis.tambahMember(namaMember[i], kodeMember[i], potonganMember[i]);
-            this.memberModel.addRow(new Object[]{this.bisnis.getMember(i).getNama(),
-                this.bisnis.getMember(i).getKode(),
-                this.bisnis.getMember(i).getPotongan()
-            });
-        }
-    }//GEN-LAST:event_btnMemberDefaultActionPerformed
 
     private void btnTambahMemberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahMemberActionPerformed
         // TODO add your handling code here:
@@ -300,7 +282,6 @@ public class BackOffice extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDefault;
     private javax.swing.JButton btnFO;
-    private javax.swing.JButton btnMemberDefault;
     private javax.swing.JButton btnTambah;
     private javax.swing.JButton btnTambahMember;
     private javax.swing.JLabel jLabel1;

@@ -4,6 +4,7 @@
  */
 package view;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import entity.Bisnis;
 /**
@@ -16,10 +17,12 @@ public class FrontOffice extends javax.swing.JFrame {
     private String[] namaProds = {"Produk 1", "Barang 2", "Barang 3", "Barang 4", "Barang 5", "Barang 6", "Barang 7", "Barang 8", "Barang 9"};
     
     private int itemKeranjangCount;
+    private int selectedMember;
     private double subtotal;
     private double ppn;
     private double nominalPpn;
     private double total;
+    private boolean isFirstState = true;
     /**
      * Creates new form FrontOffice
      */
@@ -29,9 +32,12 @@ public class FrontOffice extends javax.swing.JFrame {
         this.model = (DefaultTableModel) tbKeranjang.getModel();
         
         this.itemKeranjangCount = 0;
+        this.selectedMember = -1;
         this.subtotal = 0;
         this.ppn = 0.10;
         this.nominalPpn = 0;
+        
+        populateComboBox();
     }
     
     private void tambahKeranjang(int index) {
@@ -58,12 +64,20 @@ public class FrontOffice extends javax.swing.JFrame {
     
     private void buatStruk() {
         int size = this.bisnis.getKeranjang().getItemKeranjangSize();
+        String namaMember = "Tanpa Member\n";
+        double potongan = 0;
+        if(this.selectedMember >= 0) {
+            namaMember = this.bisnis.getMember(this.selectedMember).getNama();
+            potongan = this.bisnis.getMember(this.selectedMember).getPotongan();
+        }
         
         this.taStruk.setText("\tKoma Point of Sales.\n"
                 + "\t93 Zarifa Aliyeva.\n"
-                + "\tBaku, Azerbaijan.\n"
+                + "\tBaku, Azerbaijan.\n\n"
+                + "Member: " + namaMember + "\n"
                 + "---------------------------------\n"
-                + "Item\t\tQty\tSubtotal\n");
+                + "Item\t\tQty\tSubtotal\n"
+                );
         
         for(int i = 0; i < size; i++) {
             this.taStruk.setText(this.taStruk.getText()
@@ -77,10 +91,17 @@ public class FrontOffice extends javax.swing.JFrame {
                 + "---------------------------------\n"
                 + "Subtotal:\t" + "Rp. " + this.bisnis.getTransaksi().getSubtotal() + "\n"
                 + "PPn(" + this.bisnis.getTransaksi().getPpn() + ")\t" + "Rp. " + this.bisnis.getTransaksi().getNominalPpn() + "\n"
-                + "Total:\t" + "Rp. " + this.bisnis.getTransaksi().getTotal() + "\n"
-                + "Cash:\t" + "Rp. " + this.bisnis.getTransaksi().getCash() + "\n"
+                + "Potongan Member: Rp. " + Double.toString(potongan) + "\n"
+                + "Total:\t\t" + "Rp. " + this.bisnis.getTransaksi().getTotal() + "\n"
+                + "Cash:\t\t" + "Rp. " + this.bisnis.getTransaksi().getCash() + "\n"
                 + "Kembali:\t" + "Rp. " + this.bisnis.getTransaksi().getChange() + "\n"
                 + "\n\tTERIMA KASIH >.<");
+    }
+    
+    private void populateComboBox() {
+        for (int i = 0; i < this.bisnis.getMemberTotal(); i++) {
+            this.cbMember.addItem(this.bisnis.getMember(i).getNama());
+        }
     }
     
     /**
@@ -119,7 +140,9 @@ public class FrontOffice extends javax.swing.JFrame {
         labelTotal = new javax.swing.JLabel();
         btnBayar = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        cbMember = new javax.swing.JComboBox<>();
+        jLabel7 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -265,10 +288,21 @@ public class FrontOffice extends javax.swing.JFrame {
             }
         });
 
-        jComboBox2.setModel(this.namaProds);
-        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+        cbMember.setFont(new java.awt.Font("Plus Jakarta Sans", 0, 14)); // NOI18N
+        cbMember.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox2ActionPerformed(evt);
+                cbMemberActionPerformed(evt);
+            }
+        });
+
+        jLabel7.setFont(new java.awt.Font("Plus Jakarta Sans SemiBold", 0, 24)); // NOI18N
+        jLabel7.setText("Member:");
+
+        jButton2.setFont(new java.awt.Font("Plus Jakarta Sans", 0, 14)); // NOI18N
+        jButton2.setText("Transaksi Baru");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
             }
         });
 
@@ -276,7 +310,7 @@ public class FrontOffice extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -301,32 +335,36 @@ public class FrontOffice extends javax.swing.JFrame {
                     .addComponent(jLabel6)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButton1)
-                        .addGap(77, 77, 77)
-                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton2)))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnBayar, javax.swing.GroupLayout.PREFERRED_SIZE, 636, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel7))
+                                .addGap(18, 18, 18)
+                                .addComponent(cbMember, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(18, 18, 18)
+                                .addComponent(labelSubtotal)))
+                        .addGap(19, 19, 19)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnHitungTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 292, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addGap(59, 59, 59)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel1)
-                                            .addComponent(jLabel4)
-                                            .addComponent(jLabel5))
-                                        .addGap(59, 59, 59)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(labelTotal)
-                                            .addComponent(labelPpn)
-                                            .addComponent(labelSubtotal))))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(btnHitungTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 292, Short.MAX_VALUE)))
+                                    .addComponent(labelPpn)
+                                    .addComponent(labelTotal)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel2)
@@ -334,8 +372,9 @@ public class FrontOffice extends javax.swing.JFrame {
                                 .addGap(26, 26, 26)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(labelChange)
-                                    .addComponent(tfCash, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                    .addComponent(tfCash, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(btnBayar, javax.swing.GroupLayout.PREFERRED_SIZE, 636, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 23, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -367,38 +406,38 @@ public class FrontOffice extends javax.swing.JFrame {
                                 .addComponent(labelPpn))
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(labelTotal)
-                                .addComponent(jLabel5))
-                            .addGap(30, 30, 30))
+                                .addComponent(jLabel7)
+                                .addComponent(cbMember, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(16, 16, 16))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnProduk7, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnProduk8, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnProduk9, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnHitungTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(65, 65, 65)))
+                    .addComponent(btnHitungTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelTotal)
+                    .addComponent(jLabel5))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(15, 15, 15)
+                        .addGap(77, 77, 77)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(tfCash, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jButton1)
+                            .addComponent(jButton2))
+                        .addGap(170, 170, 170)
+                        .addComponent(jLabel6))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(35, 35, 35)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton1)
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(labelChange))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnBayar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel6)))
-                .addGap(61, 61, 61))
+                            .addComponent(jLabel2)
+                            .addComponent(tfCash, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(labelChange))
+                        .addGap(18, 18, 18)
+                        .addComponent(btnBayar, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -455,7 +494,12 @@ public class FrontOffice extends javax.swing.JFrame {
         this.nominalPpn = (this.ppn * this.subtotal); 
         this.labelPpn.setText(Double.toString(this.nominalPpn));
         
-        this.total = this.subtotal + this.nominalPpn;
+        if(this.selectedMember >= 0) {
+            this.total = (this.subtotal + this.nominalPpn) - this.bisnis.getMember(this.selectedMember).getPotongan();
+        } else {
+            this.total = this.subtotal + this.nominalPpn;
+        }
+        
         this.labelTotal.setText(Double.toString(this.total));
     }//GEN-LAST:event_btnHitungTotalActionPerformed
 
@@ -464,7 +508,15 @@ public class FrontOffice extends javax.swing.JFrame {
         double cash = Double.parseDouble(this.tfCash.getText());
         double change = cash - this.total;
         
+        if(cash < total) {
+            JOptionPane.showMessageDialog(null, "uang kurang wkwk");
+            return;
+        }
+        
         this.bisnis.buatTransaksi(this.subtotal, this.nominalPpn, this.total, cash, change, this.ppn);
+        if(this.selectedMember >= 0) {
+            this.bisnis.getTransaksi().setMember(this.bisnis.getMember(this.selectedMember));
+        }
         this.labelChange.setText(Double.toString(change));
         
         buatStruk();
@@ -476,9 +528,20 @@ public class FrontOffice extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+    private void cbMemberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbMemberActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox2ActionPerformed
+        if (isFirstState) {
+            isFirstState = false;
+            return;
+        }
+        this.selectedMember = this.cbMember.getSelectedIndex();
+    }//GEN-LAST:event_cbMemberActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        new FrontOffice(this.bisnis).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -527,14 +590,16 @@ public class FrontOffice extends javax.swing.JFrame {
     private javax.swing.JButton btnProduk7;
     private javax.swing.JButton btnProduk8;
     private javax.swing.JButton btnProduk9;
+    private javax.swing.JComboBox<String> cbMember;
     private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel labelChange;

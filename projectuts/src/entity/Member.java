@@ -11,6 +11,13 @@ package entity;
 public class Member {
     private String nama;
     private String kode;
+    private double potongan;
+            
+    public Member(String nama, String kode, double potongan) {
+        this.nama = nama;
+        this. kode = kode;
+        this.potongan = potongan;
+    }
 
     public String getNama() {
         return nama;
@@ -26,6 +33,14 @@ public class Member {
 
     public void setKode(String kode) {
         this.kode = kode;
+    }
+
+    public double getPotongan() {
+        return potongan;
+    }
+
+    public void setPotongan(double potongan) {
+        this.potongan = potongan;
     }
     
     

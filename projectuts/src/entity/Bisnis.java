@@ -12,11 +12,13 @@ public class Bisnis {
     private ArrayList<Produk> produk;
     private Keranjang keranjang;
     private Transaksi transaksi;
+    private ArrayList<Member> member;
     
     private int jumlahProduk;
     
     public Bisnis() {
         this.produk = new ArrayList<>();
+        this.member = new ArrayList<>();
         this.keranjang = new Keranjang();
         
         this.jumlahProduk = 0;
@@ -70,4 +72,26 @@ public class Bisnis {
         return this.transaksi;
     }
     
+    // MEMBER METHODS
+    public void tambahMember(String nama, String kode, double potongan) {
+        this.member.add(new Member(nama, kode, potongan));
+    }
+    
+    public Member getMember(int index) {
+        return this.member.get(index);
+    }
+    
+    public int getMemberTotal() {
+        return this.member.size();
+    }
+    
+    public void hapusMember(int index) {
+        this.member.remove(index);
+    }
+    
+    public void editMember(String nama, String kode, double potongan, int index) {
+        this.member.get(index).setNama(nama);
+        this.member.get(index).setKode(kode);
+        this.member.get(index).setPotongan(potongan);
+    }
 }

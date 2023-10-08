@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
  */
 public class BackOffice extends javax.swing.JFrame {
     private final DefaultTableModel model;
+    private final DefaultTableModel memberModel;
     private Bisnis bisnis;
     /**
      * Creates new form BackOffice
@@ -21,23 +22,36 @@ public class BackOffice extends javax.swing.JFrame {
         initComponents();
         this.bisnis = new Bisnis();
         this.model = (DefaultTableModel) tbProduk.getModel();
+        this.memberModel = (DefaultTableModel) tblMember.getModel();
         this.model.setRowCount(0);
     }
     
     public BackOffice(Bisnis bisnis) {
         initComponents();
         this.model = (DefaultTableModel) tbProduk.getModel();
+        this.memberModel = (DefaultTableModel) tblMember.getModel();
+        
         this.bisnis = bisnis;
         
-        populateTable(bisnis);
+        populateTableProduk(bisnis);
+        populateTableMember(bisnis);
     }
     
-    public void populateTable(Bisnis bisnis) {
+    public void populateTableProduk(Bisnis bisnis) {
         for(int i = 0; i < this.bisnis.getProdukTotal(); i++) {
             this.model.addRow(new Object[]{this.bisnis.getProduk(i).getId(), 
                 this.bisnis.getProduk(i).getNama(), 
                 this.bisnis.getProduk(i).getHarga(),
                 this.bisnis.getProduk(i).getStok(),
+        });
+        }
+    }
+    
+    public void populateTableMember(Bisnis bisnis) {
+        for(int i = 0; i < this.bisnis.getMemberTotal(); i++) {
+            this.memberModel.addRow(new Object[]{this.bisnis.getMember(i).getNama(), 
+                this.bisnis.getMember(i).getKode(), 
+                this.bisnis.getMember(i).getPotongan()
         });
         }
     }
@@ -57,6 +71,10 @@ public class BackOffice extends javax.swing.JFrame {
         btnTambah = new javax.swing.JButton();
         btnDefault = new javax.swing.JButton();
         btnFO = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblMember = new javax.swing.JTable();
+        btnMemberDefault = new javax.swing.JButton();
+        btnTambahMember = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -113,6 +131,32 @@ public class BackOffice extends javax.swing.JFrame {
             }
         });
 
+        tblMember.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Nama", "Kode", "Potongan"
+            }
+        ));
+        jScrollPane2.setViewportView(tblMember);
+
+        btnMemberDefault.setFont(new java.awt.Font("Plus Jakarta Sans Medium", 0, 14)); // NOI18N
+        btnMemberDefault.setText("Tambah Default");
+        btnMemberDefault.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMemberDefaultActionPerformed(evt);
+            }
+        });
+
+        btnTambahMember.setFont(new java.awt.Font("Plus Jakarta Sans Medium", 0, 14)); // NOI18N
+        btnTambahMember.setText("Manajemen Member");
+        btnTambahMember.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTambahMemberActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -120,16 +164,23 @@ public class BackOffice extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 503, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnFO)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnDefault)
                         .addGap(18, 18, 18)
                         .addComponent(btnTambah))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 656, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnFO)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(803, 803, 803)
+                        .addComponent(btnMemberDefault)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnTambahMember)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -139,11 +190,16 @@ public class BackOffice extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(btnTambah)
-                    .addComponent(btnDefault))
-                .addGap(18, 18, 18)
-                .addComponent(btnFO)
+                    .addComponent(btnDefault)
+                    .addComponent(btnFO))
                 .addGap(24, 24, 24)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 477, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnTambahMember)
+                    .addComponent(btnMemberDefault))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 477, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -181,6 +237,27 @@ public class BackOffice extends javax.swing.JFrame {
         new FrontOffice(this.bisnis).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnFOActionPerformed
+
+    private void btnMemberDefaultActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMemberDefaultActionPerformed
+        // TODO add your handling code here:
+        String[] namaMember = {"Member 1", "Member 2", "Member 3"};
+        String[] kodeMember = {"3ms4tu", "3mdu4", "3mt194"};
+        double[] potonganMember = {1000, 3000, 9000};
+        
+        for(int i = 0; i < 3; i++) {
+            this.bisnis.tambahMember(namaMember[i], kodeMember[i], potonganMember[i]);
+            this.memberModel.addRow(new Object[]{this.bisnis.getMember(i).getNama(),
+                this.bisnis.getMember(i).getKode(),
+                this.bisnis.getMember(i).getPotongan()
+            });
+        }
+    }//GEN-LAST:event_btnMemberDefaultActionPerformed
+
+    private void btnTambahMemberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahMemberActionPerformed
+        // TODO add your handling code here:
+        new MemberForm(this.bisnis).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnTambahMemberActionPerformed
 
     /**
      * @param args the command line arguments
@@ -223,9 +300,13 @@ public class BackOffice extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDefault;
     private javax.swing.JButton btnFO;
+    private javax.swing.JButton btnMemberDefault;
     private javax.swing.JButton btnTambah;
+    private javax.swing.JButton btnTambahMember;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable tbProduk;
+    private javax.swing.JTable tblMember;
     // End of variables declaration//GEN-END:variables
 }

@@ -10,11 +10,6 @@ import javax.swing.UIManager;
  * @author jordan
  */
 public class Test {
-    Bisnis bisnis;
-    
-    public Test() {
-        this.bisnis = new Bisnis();
-    }
     
     public static void main(String[] args) {
          UIManager.LookAndFeelInfo[] looks = UIManager.getInstalledLookAndFeels();

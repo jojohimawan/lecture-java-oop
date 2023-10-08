@@ -36,14 +36,23 @@ public class FrontOffice extends javax.swing.JFrame {
     private void tambahKeranjang(int index) {
         /* CONCERN: struggle ketika menambah item keranjang yang sama, jadi sementara
                     qty dibikin statis */
-        this.bisnis.tambahItemKeranjang(this.bisnis.getProduk(index), 1, this.bisnis.getProduk(index).getHarga());
-        this.model.addRow(new Object[] {this.bisnis.getKeranjang().getItemKeranjang(this.itemKeranjangCount).getProduk().getNama(),
-            this.bisnis.getKeranjang().getItemKeranjang(this.itemKeranjangCount).getQty(),
-            this.bisnis.getKeranjang().getItemKeranjang(this.itemKeranjangCount).getSubtotal()
-        });
-        this.subtotal += this.bisnis.getKeranjang().getItemKeranjang(this.itemKeranjangCount).getSubtotal();
-        this.itemKeranjangCount++;
-        this.labelSubtotal.setText(Double.toString(this.subtotal));
+        
+        // cek apakah stok masih ada
+        if(this.bisnis.getProduk(index).getStok() <= 0){
+            JOptionPane.showMessageDialog(null, "Stok habis");
+        } else {
+            // kurangi stok sebanyak 1
+            this.bisnis.getProduk(index).setStok(this.bisnis.getProduk(index).getStok() - 1);
+            
+            this.bisnis.tambahItemKeranjang(this.bisnis.getProduk(index), 1, this.bisnis.getProduk(index).getHarga());
+            this.model.addRow(new Object[] {this.bisnis.getKeranjang().getItemKeranjang(this.itemKeranjangCount).getProduk().getNama(),
+                this.bisnis.getKeranjang().getItemKeranjang(this.itemKeranjangCount).getQty(),
+                this.bisnis.getKeranjang().getItemKeranjang(this.itemKeranjangCount).getSubtotal()
+            });
+            this.subtotal += this.bisnis.getKeranjang().getItemKeranjang(this.itemKeranjangCount).getSubtotal();
+            this.itemKeranjangCount++;
+            this.labelSubtotal.setText(Double.toString(this.subtotal));
+        }
     }
     
     private void buatStruk() {

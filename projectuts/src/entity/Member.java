@@ -8,7 +8,7 @@ package entity;
  *
  * @author jordan
  */
-public class Customer {
+public class Member {
     private String nama;
     private String kode;
 

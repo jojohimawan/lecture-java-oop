@@ -258,6 +258,10 @@ public class BackOfficeForm extends javax.swing.JFrame {
             this.bisnis.hapusProduk(this.index);
             this.model.removeRow(this.index);
             this.index = -1;
+            
+            this.tfNamaProd.setText("");
+            this.tfHarga.setText("");
+            this.tfStok.setText("");
             JOptionPane.showMessageDialog(null, "Berhasil menghapus produk");
         } catch(Exception e) {
             JOptionPane.showMessageDialog(null, "Mohon pilih produk");
@@ -272,11 +276,17 @@ public class BackOfficeForm extends javax.swing.JFrame {
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
         // TODO add your handling code here:
+        int selectedRow = this.tbProduk.getSelectedRow();
+        
         String namaProd = tfNamaProd.getText();
         double harga = Double.parseDouble(tfHarga.getText());
         int stok = tfStok.getText() == null ? 0 : Integer.parseInt(tfStok.getText());
         
         this.bisnis.editProduk(namaProd, (double)harga, (int)stok, this.row);
+        this.tbProduk.setValueAt(this.bisnis.getProduk(selectedRow).getId(), selectedRow, 0);
+        this.tbProduk.setValueAt(this.bisnis.getProduk(selectedRow).getNama(), selectedRow, 1);
+        this.tbProduk.setValueAt(this.bisnis.getProduk(selectedRow).getHarga(), selectedRow, 2);
+        this.tbProduk.setValueAt(this.bisnis.getProduk(selectedRow).getStok(), selectedRow, 3);
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void tbProdukMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbProdukMouseClicked

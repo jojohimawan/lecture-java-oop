@@ -28,7 +28,7 @@ public class BackOfficeForm extends javax.swing.JFrame {
         populateTable(bisnis);
     }
     
-    public void populateTable(Bisnis bisnis) {
+    private void populateTable(Bisnis bisnis) {
         for(int i = 0; i < this.bisnis.getProdukTotal(); i++) {
             this.model.addRow(new Object[]{this.bisnis.getProduk(i).getId(), 
                 this.bisnis.getProduk(i).getNama(), 

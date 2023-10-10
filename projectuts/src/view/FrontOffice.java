@@ -14,7 +14,6 @@ import entity.Bisnis;
 public class FrontOffice extends javax.swing.JFrame {
     private Bisnis bisnis;
     private DefaultTableModel model;
-    private String[] namaProds = {"Produk 1", "Barang 2", "Barang 3", "Barang 4", "Barang 5", "Barang 6", "Barang 7", "Barang 8", "Barang 9"};
     
     private int itemKeranjangCount;
     private int selectedMember;

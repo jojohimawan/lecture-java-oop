@@ -37,7 +37,7 @@ public class BackOffice extends javax.swing.JFrame {
         populateTableMember(bisnis);
     }
     
-    public void populateTableProduk(Bisnis bisnis) {
+    private void populateTableProduk(Bisnis bisnis) {
         for(int i = 0; i < this.bisnis.getProdukTotal(); i++) {
             this.model.addRow(new Object[]{this.bisnis.getProduk(i).getId(), 
                 this.bisnis.getProduk(i).getNama(), 
@@ -47,7 +47,7 @@ public class BackOffice extends javax.swing.JFrame {
         }
     }
     
-    public void populateTableMember(Bisnis bisnis) {
+    private void populateTableMember(Bisnis bisnis) {
         for(int i = 0; i < this.bisnis.getMemberTotal(); i++) {
             this.memberModel.addRow(new Object[]{this.bisnis.getMember(i).getNama(), 
                 this.bisnis.getMember(i).getKode(), 

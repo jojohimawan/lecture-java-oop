@@ -28,7 +28,7 @@ public class MemberForm extends javax.swing.JFrame {
         populateTable(bisnis);
     }
     
-    public void populateTable(Bisnis bisnis) {
+    private void populateTable(Bisnis bisnis) {
         for(int i = 0; i < this.bisnis.getMemberTotal(); i++) {
             this.model.addRow(new Object[]{this.bisnis.getMember(i).getNama(), 
                 this.bisnis.getMember(i).getKode(), 
@@ -237,11 +237,12 @@ public class MemberForm extends javax.swing.JFrame {
         // call add method
         this.bisnis.tambahMember(nama, kode, potongan);
         
-        this.index++;
+        
             this.model.addRow(new Object[]{this.bisnis.getMember(this.index).getNama(), 
                 this.bisnis.getMember(this.index).getKode(), 
                 this.bisnis.getMember(this.index).getPotongan()
             });
+            this.index++;
     }//GEN-LAST:event_btnTambahActionPerformed
 
     private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
